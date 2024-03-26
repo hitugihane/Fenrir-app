@@ -1,0 +1,15 @@
+# Django本体
+Django==4.1
+
+# データベース
+PyMySQL==1.0.2
+
+# その他のライブラリ
+gunicorn==20.1.0
+uwsgi==2.0.22
+psycopg2-binary==2.9.3
+
+# 開発用
+ipython==7.31.1
+django-extensions==3.1.0
+flake8==4.0.1
