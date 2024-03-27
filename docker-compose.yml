@@ -13,7 +13,7 @@ services:
       - django
 
   mysql:
-    image: mysql:8.0  # より新しくサポートされているバージョンを検討 (例: 8.0)
+    image: mysql:8.0  # より新しくサポートされているバージョンを検討 
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     ports:
       - "3306:3306"
