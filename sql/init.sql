@@ -1,3 +1,0 @@
-GRANT ALL PRIVILEGES ON db.* TO 'user'@'%';
-
-FLUSH PRIVILEGES;
