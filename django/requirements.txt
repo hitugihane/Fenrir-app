@@ -1,0 +1,8 @@
+# Django本体
+Django==3.2.25
+# データベース
+PyMySQL==1.0.2
+# その他のライブラリ
+uwsgi==2.0.22
+requests>=2.25.1
+python-dotenv==0.19.0

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shop Finder</title>
+    <style>
+        .shop {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .shop img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+        #pagination {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="getLocation()">周辺の店舗を検索</button>
+    <div id="shops"></div> <!-- 店舗情報を表示 -->
+    <div id="pagination"></div> <!-- ページネーションを表示 -->
+
+    <script>
+        let currentLat = 0;
+        let currentLng = 0;
+        let currentPage = 1; // 現在のページ
+
+        function fetchShops(lat, lng, page = 1) {
+            fetch(`/fetch_shops/?lat=${lat}&lng=${lng}&page=${page}`)
+                .then(response => response.json())
+                .then(data => {
+                    displayShops(data.shops);
+                    displayPagination(data.has_next, data.has_previous, data.num_pages);
+                });
+        }
+
+        function displayShops(shops) {
+            const shopsContainer = document.getElementById('shops');
+            shopsContainer.innerHTML = ''; // コンテナをクリア
+            shops.forEach(shop => {
+                const shopDiv = document.createElement('div');
+                shopDiv.className = 'shop';
+                shopDiv.innerHTML = `
+                    <img src="${shop.logo_image}" alt="${shop.name}">
+                    <h3>${shop.name}</h3>
+                    <p>${shop.address}</p>
+                `;
+                shopsContainer.appendChild(shopDiv);
+            });
+        }
+
+        function displayPagination(hasNext, hasPrevious, numPages) {
+        const paginationDiv = document.getElementById('pagination');
+        paginationDiv.innerHTML = '';
+
+        if (hasPrevious) {
+            const prevBtn = document.createElement('button');
+            prevBtn.textContent = '前へ';
+            prevBtn.onclick = () => {
+                currentPage -= 1;
+                fetchShops(currentLat, currentLng, currentPage);
+            };
+            paginationDiv.appendChild(prevBtn);
+        }
+
+        if (hasNext) {
+            const nextBtn = document.createElement('button');
+            nextBtn.textContent = '次へ';
+            nextBtn.onclick = () => {
+                currentPage += 1;
+                fetchShops(currentLat, currentLng, currentPage);
+            };
+            paginationDiv.appendChild(nextBtn);
+        }
+    }
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    currentLat = position.coords.latitude;
+                    currentLng = position.coords.longitude;
+                    fetchShops(currentLat, currentLng);
+                },
+                () => {
+                    alert('位置情報の取得に失敗しました。');
+                }
+            );
+        } else {
+            alert("このブラウザではGeolocationがサポートされていません。");
+        }
+    }
+    </script>
+</body>
+</html>
