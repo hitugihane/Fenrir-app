@@ -5,25 +5,29 @@ from django.core.paginator import Paginator
 from django.conf import settings
 
 HOTPEPPER_API_URL = "http://webservice.recruit.co.jp/hotpepper/gourmet/v1/"
-# APIキーの使用
 API_KEY = settings.HOTPEPPER_API_KEY
 
-def index(request):
-    # index.htmlを表示するためのビュー
+def index(request):#index.htmlを返す
     return render(request, 'index.html')
 
-def fetch_shops(request):
+def shop_details(request):#shop_details.htmlを返す
+    shop_id = request.GET.get('shopId')
+    return render(request, 'shop_details.html', {'shopId': shop_id})
+
+def fetch_shops(request):#店舗情報を取得する
     latitude = float(request.GET.get('lat'))
     longitude = float(request.GET.get('lng'))
+    radius = request.GET.get('radius', '1')
     page_number = request.GET.get('page', 1)
 
-    shops = fetch_and_combine_shops(latitude, longitude)
-    
-    # ページネーション
-    paginator = Paginator(shops, 5)  # 5店舗ごとにページネーション
+    if radius == '6':
+        shops = fetch_and_combine_shops_with_multiple_points(latitude, longitude)
+    else:
+        shops = fetch_and_combine_shops(latitude, longitude, radius)
+
+    paginator = Paginator(shops, 6)
     page_obj = paginator.get_page(page_number)
-    
-    # JSONで返すデータを準備
+
     data = {
         'shops': list(page_obj.object_list),
         'has_next': page_obj.has_next(),
@@ -34,8 +38,7 @@ def fetch_shops(request):
 
     return JsonResponse(data)
 
-def calculate_surrounding_points(latitude, longitude, distance=0.02):# 0.02はおおよ3kmでした（Googlemapでずらじてみて試しました）
-    # 緯度経度を少し変化させることで4つの周辺地点を生成
+def calculate_surrounding_points(latitude, longitude, distance=0.02):#周辺の店舗情報を取得する
     points = [
         (latitude + distance, longitude),
         (latitude - distance, longitude),
@@ -44,7 +47,7 @@ def calculate_surrounding_points(latitude, longitude, distance=0.02):# 0.02は�
     ]
     return points
 
-def fetch_and_combine_shops(lat, lng):
+def fetch_and_combine_shops_with_multiple_points(lat, lng):#周辺の店舗情報を取得する
     points = calculate_surrounding_points(lat, lng)
     responses = []
     for point in points:
@@ -52,17 +55,40 @@ def fetch_and_combine_shops(lat, lng):
             'key': API_KEY,
             'lat': point[0],
             'lng': point[1],
-            'range': 5,  # 検索範囲をここで調整可能
+            'range': 5,
             'format': 'json',
         }
         response = requests.get(HOTPEPPER_API_URL, params=params)
         if response.status_code == 200:
-            responses.append(response.json()['results']['shop'])
-    
-    # 結果を統合し、重複を除外
-    all_shops = list({shop['id']: shop for shops in responses for shop in shops}.values())
+            responses += response.json()['results']['shop']
+
+    all_shops = list({shop['id']: shop for shop in responses}.values())
     return all_shops
 
+def fetch_and_combine_shops(lat, lng, range_value):#周辺の店舗情報を取得する
+    params = {
+        'key': API_KEY,
+        'lat': lat,
+        'lng': lng,
+        'range': range_value,
+        'format': 'json',
+    }
+    response = requests.get(HOTPEPPER_API_URL, params=params)
+    shops = []
+    if response.status_code == 200:
+        shops = response.json()['results']['shop']
+    
+    return shops
 
-
-
+def fetch_shop_details(request):#店舗情報を取得する
+    shop_id = request.GET.get('shopId')
+    params = {
+        'key': API_KEY,
+        'id': shop_id,
+        'format': 'json',
+    }
+    response = requests.get(HOTPEPPER_API_URL, params=params)
+    if response.status_code == 200:
+        return JsonResponse(response.json()['results']['shop'][0])
+    else:
+        return JsonResponse({'error': 'Shop not found'}, status=404)

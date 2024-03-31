@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Shop Details</title>
+    <style>
+        .shop-details {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+
+<div class="shop-details" id="shopDetails">
+    <!-- 店舗の詳細情報がここに表示される -->
+</div>
+<a href="http://webservice.recruit.co.jp/"><img src="http://webservice.recruit.co.jp/banner/hotpepper-s.gif" alt="ホットペッパーグルメ Webサービス" width="135" height="17" border="0" title="ホットペッパーグルメ Webサービス"></a>
+<script>
+function fetchShopDetails(shopId) {
+    fetch(`/fetch_shop_details/?shopId=${shopId}`)
+    .then(response => response.json())
+    .then(data => {
+        displayShopDetails(data);
+    })
+    .catch(error => console.error('Error fetching shop details:', error));
+}
+
+function displayShopDetails(shop) {
+    const detailsDiv = document.getElementById('shopDetails');
+    detailsDiv.innerHTML = `
+        <h2>${shop.name}</h2>
+        <img src="${shop.logo_image}" alt="${shop.name}" style="width: 100%; max-width: 300px; height: auto;">
+        <p><strong>住所:</strong> ${shop.address}</p>
+        <p><strong>アクセス:</strong> ${shop.access}</p>
+        <p><strong>営業時間:</strong> ${shop.open}</p>
+        <p><strong>平均予算:</strong> ${shop.budget.name} (${shop.budget.average})</p>
+    `;
+}
+
+const shopId = "{{ shopId }}";
+if (shopId) {
+    fetchShopDetails(shopId);
+}
+</script>
+</body>
+</html>

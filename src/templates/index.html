@@ -1,98 +1,118 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Shop Finder</title>
-    <style>
-        .shop {
-            margin-bottom: 20px;
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-        .shop img {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-        }
-        #pagination {
-            margin-top: 20px;
-        }
-    </style>
+<title>Shop Finder</title>
+<style>
+.shop {
+    width: 30%;/* １店舗の幅を30%に設定 */
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+.shop img {
+    width: 100px;
+    object-fit: cover;
+}
+#pagination {
+    margin-top: 20px;
+}
+.radius-btn {
+    margin: 5px;
+}
+#shops {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+</style>
 </head>
 <body>
-    <button onclick="getLocation()">周辺の店舗を検索</button>
-    <div id="shops"></div> <!-- 店舗情報を表示 -->
-    <div id="pagination"></div> <!-- ページネーションを表示 -->
+<div id="radius-buttons">
+<button class="radius-btn" onclick="getLocation(1)">周辺の店舗を検索 (300m)</button>
+<button class="radius-btn" onclick="getLocation(2)">周辺の店舗を検索 (500m)</button>
+<button class="radius-btn" onclick="getLocation(3)">周辺の店舗を検索 (1000m)</button>
+<button class="radius-btn" onclick="getLocation(4)">周辺の店舗を検索 (2000m)</button>
+<button class="radius-btn" onclick="getLocation(5)">周辺の店舗を検索 (3000m)</button>
+<button class="radius-btn" onclick="getLocation(6)">周辺の店舗を検索 (5000m)</button>
+</div>
+<div id="shops"></div>
+<div id="pagination"></div>
 
-    <script>
-        let currentLat = 0;
-        let currentLng = 0;
-        let currentPage = 1; // 現在のページ
+<script>
+let currentLat = 0;
+let currentLng = 0;
+let currentPage = 1;
+let searchRadius = 1;
 
-        function fetchShops(lat, lng, page = 1) {
-            fetch(`/fetch_shops/?lat=${lat}&lng=${lng}&page=${page}`)
-                .then(response => response.json())
-                .then(data => {
-                    displayShops(data.shops);
-                    displayPagination(data.has_next, data.has_previous, data.num_pages);
-                });
-        }
+function fetchShops(lat, lng, radius, page = 1) {
+fetch(`/fetch_shops/?lat=${lat}&lng=${lng}&radius=${radius}&page=${page}`)
+.then(response => response.json())
+.then(data => {
+    displayShops(data.shops);
+    displayPagination(data.has_next, data.has_previous, data.num_pages);
+})
+.catch(error => console.error('Error fetching shops:', error));
+}
 
-        function displayShops(shops) {
-            const shopsContainer = document.getElementById('shops');
-            shopsContainer.innerHTML = ''; // コンテナをクリア
-            shops.forEach(shop => {
-                const shopDiv = document.createElement('div');
-                shopDiv.className = 'shop';
-                shopDiv.innerHTML = `
-                    <img src="${shop.logo_image}" alt="${shop.name}">
-                    <h3>${shop.name}</h3>
-                    <p>${shop.address}</p>
-                `;
-                shopsContainer.appendChild(shopDiv);
-            });
-        }
+function displayShops(shops) {
+    const shopsContainer = document.getElementById('shops');
+    shopsContainer.innerHTML = '';
+    shops.forEach(shop => {
+        const shopDiv = document.createElement('div');
+        shopDiv.className = 'shop';
+        let imageUrl = shop.logo_image !== "NOIMG" ? shop.logo_image : "path/to/your/alternate/image.jpg";
+        shopDiv.innerHTML = `
+            <a href="/shop_details/?shopId=${shop.id}">
+                <img src="${imageUrl}" alt="${shop.name}" style="max-width:100px; height:auto;">
+                <h3>${shop.name}</h3>
+            </a>
+            <p>${shop.access}</p>
+        `;
+        shopsContainer.appendChild(shopDiv);
+    });
+}
 
-        function displayPagination(hasNext, hasPrevious, numPages) {
-        const paginationDiv = document.getElementById('pagination');
-        paginationDiv.innerHTML = '';
-
-        if (hasPrevious) {
-            const prevBtn = document.createElement('button');
-            prevBtn.textContent = '前へ';
-            prevBtn.onclick = () => {
-                currentPage -= 1;
-                fetchShops(currentLat, currentLng, currentPage);
-            };
-            paginationDiv.appendChild(prevBtn);
-        }
-
-        if (hasNext) {
-            const nextBtn = document.createElement('button');
-            nextBtn.textContent = '次へ';
-            nextBtn.onclick = () => {
-                currentPage += 1;
-                fetchShops(currentLat, currentLng, currentPage);
-            };
-            paginationDiv.appendChild(nextBtn);
-        }
+function displayPagination(hasNext, hasPrevious, numPages) {
+    const paginationDiv = document.getElementById('pagination');
+    paginationDiv.innerHTML = '';
+    if (hasPrevious) {
+        const prevBtn = document.createElement('button');
+        prevBtn.textContent = '前へ';
+        prevBtn.onclick = () => {
+            currentPage -= 1;
+            fetchShops(currentLat, currentLng, searchRadius, currentPage);
+        };
+        paginationDiv.appendChild(prevBtn);
     }
-
-    function getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    currentLat = position.coords.latitude;
-                    currentLng = position.coords.longitude;
-                    fetchShops(currentLat, currentLng);
-                },
-                () => {
-                    alert('位置情報の取得に失敗しました。');
-                }
-            );
-        } else {
-            alert("このブラウザではGeolocationがサポートされていません。");
-        }
+    if (hasNext) {
+        const nextBtn = document.createElement('button');
+        nextBtn.textContent = '次へ';
+        nextBtn.onclick = () => {
+            currentPage += 1;
+            fetchShops(currentLat, currentLng, searchRadius, currentPage);
+        };
+        paginationDiv.appendChild(nextBtn);
     }
-    </script>
+}
+
+function getLocation(radius) {
+    searchRadius = radius;
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                currentLat = position.coords.latitude;
+                currentLng = position.coords.longitude;
+                fetchShops(currentLat, currentLng, searchRadius, currentPage);
+            },
+            () => {
+                alert('位置情報の取得に失敗しました。');
+            }
+        );
+    } else {
+        alert("このブラウザではGeolocationがサポートされていません。");
+    }
+}
+</script>
+<a href="http://webservice.recruit.co.jp/"><img src="http://webservice.recruit.co.jp/banner/hotpepper-s.gif" alt="ホットペッパーグルメ Webサービス" width="135" height="17" border="0" title="ホットペッパーグルメ Webサービス"></a>
 </body>
 </html>
