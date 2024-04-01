@@ -9,6 +9,8 @@ from django.contrib.auth.decorators import login_required
 from .forms import SignUpForm
 from .models import FavoriteShop
 from django.views.decorators.http import require_POST
+from django.urls import reverse_lazy
+from django.contrib.auth.views import LoginView
 
 HOTPEPPER_API_URL = "http://webservice.recruit.co.jp/hotpepper/gourmet/v1/"
 API_KEY = settings.HOTPEPPER_API_KEY
@@ -185,3 +187,10 @@ def favorites(request):
 
     # お気に入り店舗の情報をテンプレートに渡す
     return render(request, 'favorites.html', {'favorite_shops': favorite_shops})
+
+class CustomLoginView(LoginView):
+    template_name = 'registration/login.html'  # ログインページのテンプレート
+    redirect_authenticated_user = True  # 認証済みの場合はリダイレクト
+
+    def get_success_url(self):
+        return reverse_lazy('index')  # ホームページへのリダイレクト

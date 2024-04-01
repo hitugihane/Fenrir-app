@@ -10,7 +10,7 @@ urlpatterns = [
     path('add_to_favorites/', views.add_to_favorites, name='add_to_favorites'),
     path('remove_from_favorites/', views.remove_from_favorites, name='remove_from_favorites'),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
+    path('login/', views.CustomLoginView.as_view(), name='login'),
     path('signup/', views.signup, name='signup'),
     path('favorites/', views.favorites, name='favorites'),
 ]
