@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-bh#$j12svhn-3_oo#!+e(datmtgg@j2+e_&2jtpi9rdeq8k*p_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*','aoki.ngrock.app']#ngrokのURLを追加
 
 
 # Application definition

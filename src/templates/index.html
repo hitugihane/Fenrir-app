@@ -39,7 +39,8 @@ function displayShops(shops) {
     shops.forEach(shop => {
         const shopDiv = document.createElement('div');
         shopDiv.className = 'shop';
-        let imageUrl = shop.logo_image !== "NOIMG" ? shop.logo_image : "path/to/your/alternate/image.jpg";
+        // shop.photo.pc.l の存在を確認し、存在しない場合は代替画像を使用
+        let imageUrl = shop.photo && shop.photo.pc && shop.photo.pc.l ? shop.photo.pc.l : "path/to/your/alternate/image.jpg";
         shopDiv.innerHTML = `
             <a href="/shop_details/?shopId=${shop.id}">
                 <img src="${imageUrl}" alt="${shop.name}" style="max-width:100px; height:auto;">
@@ -50,6 +51,7 @@ function displayShops(shops) {
         shopsContainer.appendChild(shopDiv);
     });
 }
+
 
 function displayPagination(hasNext, hasPrevious, numPages) {
     const paginationDiv = document.getElementById('pagination');

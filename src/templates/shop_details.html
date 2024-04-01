@@ -7,7 +7,7 @@
 <div class="shopDetails">
     {% if shop %}
         <h2>{{ shop.name }}</h2>
-        <img src="{{ shop.logo_image }}" alt="{{ shop.name }}" style="width: 100%; max-width: 300px; height: auto;">
+        <img src="{{ shop.photo.pc.l }}" alt="{{ shop.name }}" style="width: 100%; max-width: 300px; height: auto;">
         <p><strong>住所:</strong> {{ shop.address }}</p>
         <p><strong>アクセス:</strong> {{ shop.access }}</p>
         <p><strong>営業時間:</strong> {{ shop.open }}</p>
