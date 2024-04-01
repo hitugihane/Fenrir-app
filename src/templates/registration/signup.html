@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Up</title>
+    {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'gourmet_search_api/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'gourmet_search_api/css/signup.css' %}">
+</head>
+<body>
+    <div class="container"> <!-- コンテナを追加 -->
+        <h2>Sign up</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Sign up</button>
+        </form>
+    </div>
+</body>
+</html>
+

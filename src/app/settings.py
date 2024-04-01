@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-bh#$j12svhn-3_oo#!+e(datmtgg@j2+e_&2jtpi9rdeq8k*p_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['aoki.ngrok.app']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'gourmet_search_api',
 ]
 
 MIDDLEWARE = [

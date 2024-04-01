@@ -1,39 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Shop Finder</title>
-<style>
-.shop {
-    width: 30%;/* １店舗の幅を30%に設定 */
-    margin-bottom: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
-}
-.shop img {
-    width: 100px;
-    object-fit: cover;
-}
-#pagination {
-    margin-top: 20px;
-}
-.radius-btn {
-    margin: 5px;
-}
-#shops {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-</style>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Shop List{% endblock title %}
+
+{% block content %}
+
+{% load static %}
+<h2>Restaurant Search</h2>
 <div id="radius-buttons">
-<button class="radius-btn" onclick="getLocation(1)">周辺の店舗を検索 (300m)</button>
-<button class="radius-btn" onclick="getLocation(2)">周辺の店舗を検索 (500m)</button>
-<button class="radius-btn" onclick="getLocation(3)">周辺の店舗を検索 (1000m)</button>
-<button class="radius-btn" onclick="getLocation(4)">周辺の店舗を検索 (2000m)</button>
-<button class="radius-btn" onclick="getLocation(5)">周辺の店舗を検索 (3000m)</button>
-<button class="radius-btn" onclick="getLocation(6)">周辺の店舗を検索 (5000m)</button>
+<button class="radius-btn" onclick="getLocation(1)">(300m)</button>
+<button class="radius-btn" onclick="getLocation(2)">(500m)</button>
+<button class="radius-btn" onclick="getLocation(3)">(1000m)</button>
+<button class="radius-btn" onclick="getLocation(4)">(2000m)</button>
+<button class="radius-btn" onclick="getLocation(5)">(3000m)</button>
+<button class="radius-btn" onclick="getLocation(6)">(5000m)</button>
 </div>
 <div id="shops"></div>
 <div id="pagination"></div>
@@ -113,6 +92,4 @@ function getLocation(radius) {
     }
 }
 </script>
-<a href="http://webservice.recruit.co.jp/"><img src="http://webservice.recruit.co.jp/banner/hotpepper-s.gif" alt="ホットペッパーグルメ Webサービス" width="135" height="17" border="0" title="ホットペッパーグルメ Webサービス"></a>
-</body>
-</html>
+{% endblock content %}
