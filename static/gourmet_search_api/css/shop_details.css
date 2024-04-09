@@ -1,0 +1,45 @@
+.shopDetails {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+}
+
+.shopDetails img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    display: block;
+    margin: 0 auto 20px; /* 画像を中央に配置し、下に余白を設定 */
+}
+
+.shopDetails h2, .shopDetails p {
+    text-align: center;
+}
+
+/* 小さなデバイス向けのスタイル調整 */
+@media (max-width: 768px) {
+    .shopDetails {
+        padding: 15px;
+        margin: 10px;
+    }
+
+    .shopDetails img {
+        max-width: 100%; /* スマートフォンでは画像の最大幅を調整 */
+    }
+}
+
+/* 非常に小さなデバイス向けのスタイル調整 */
+@media (max-width: 480px) {
+    .shopDetails {
+        margin: 5px;
+        padding: 10px;
+    }
+
+    .shopDetails h2, .shopDetails p {
+        text-align: left; /* スマートフォンではテキストを左寄せに */
+    }
+}

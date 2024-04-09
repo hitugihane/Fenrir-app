@@ -1,0 +1,53 @@
+/* お気に入り店舗リストに特化したスタイル */
+ul.favorite-shops {
+    max-width: 800px;
+    margin: auto;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+ul.favorite-shops li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+ul.favorite-shops li:last-child {
+    border-bottom: none;
+}
+
+ul.favorite-shops h3 {
+    margin: 0;
+    color: #007bff;
+    font-size: 20px;
+}
+
+ul.favorite-shops p {
+    margin: 0;
+    font-size: 16px;
+    color: #666;
+}
+
+/* ボタンとリンクのカスタムスタイル */
+.favorite-shops button {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.favorite-shops button:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.favorite-shops a {
+    color: #007bff;
+    font-weight: bold;
+}
+
+.favorite-shops a:hover {
+    color: #0056b3;
+}

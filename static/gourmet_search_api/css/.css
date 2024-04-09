@@ -1,0 +1,87 @@
+/* 店舗検索ボタンのスタイル */
+
+#radius-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.radius-btn {
+    background-color: #17a2b8; /* ボタンの背景色 */
+    color: white; /* ボタンのテキスト色 */
+    border: none;
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    min-width: 160px; /* ボタンの最小幅を設定 */
+}
+
+.radius-btn:hover {
+    background-color: #138496; /* ホバー時の背景色 */
+}
+
+/* 店舗リストのスタイル */
+#shops {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 0;
+}
+
+.shop {
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: calc(33.333% - 20px);
+    margin: 10px;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.shop img {
+    width: auto;
+    height: 100px;
+    margin-bottom: 10px;
+}
+
+/* ページネーションスタイル */
+#pagination {
+    text-align: center;
+    margin-top: 30px;
+}
+
+#pagination button {
+    background-color: #007bff; /* ボタンの背景色 */
+    color: white; /* ボタンのテキスト色 */
+    border: none;
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#pagination button:hover {
+    background-color: #0056b3; /* ホバー時の背景色 */
+}
+
+/* 小さなデバイスでボタンを縦並びにする */
+@media (max-width: 768px) {
+    #radius-buttons {
+        flex-direction: column;
+    }
+
+    .radius-btn {
+        margin: 5px 0; /* 縦並びの時のマージン調整 */
+    }
+}
+
+/* 非常に小さなデバイス（スマートフォン）でのスタイル調整 */
+@media (max-width: 480px) {
+    .shop {
+        width: calc(100% - 20px); /* 1列表示に調整 */
+    }
+}

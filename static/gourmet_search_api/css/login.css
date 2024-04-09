@@ -1,0 +1,64 @@
+body {
+    display: flex;
+    flex-direction: column; /* 子要素を縦に並べる */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column; /* タイトルとフォームを縦に並べる */
+    align-items: center; /* 中央揃え */
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px; /* フォーム下の余白 */
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form {
+    width: 100%;
+}
+
+form input[type="text"], 
+form input[type="password"], 
+form button {
+    width: calc(100% - 40px); /* パディングを考慮した幅 */
+    padding: 10px;
+    margin: 5px auto; /* 上下のマージンと自動で中央揃え */
+    display: block; /* 要素をブロックレベルで表示 */
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+p {
+    margin-top: 20px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .container {
+        margin: 10px; /* 小さなデバイスではコンテナの周りの余白を減らす */
+        padding: 15px;
+    }
+}

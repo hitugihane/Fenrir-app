@@ -1,0 +1,96 @@
+body {
+    display: flex;
+    flex-direction: column; /* 子要素を縦に並べる */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column; /* タイトルとフォームを縦に並べる */
+    align-items: center; /* 中央揃え */
+}
+
+form {
+    width: 100%;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+    form {
+        margin: 10px; /* 小さなデバイスではフォームの周りの余白を減らす */
+        padding: 15px;
+    }
+}
+
+/* フォームとその子要素のスタイリング */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* テキストボックスとボタンの幅を統一 */
+form input, form button {
+    width: 100%; /* 親要素（form）に対して幅を100%に設定 */
+    box-sizing: border-box; /* paddingとborderを要素の幅に含める */
+    padding: 10px;
+    margin-bottom: 10px; /* 各要素の下にマージンを設定 */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px; /* フォントサイズを統一 */
+}
+
+/* ラベルのスタイリング */
+form label {
+    width: 100%;
+    margin-bottom: 5px; /* ラベルの下にマージンを設定 */
+    font-weight: bold; /* ラベルのテキストを太字に */
+    text-align: left;
+}
+
+/* ボタンに対する追加のスタイル */
+form button {
+    background-color: #007bff; /* ボタンの背景色 */
+    color: white; /* ボタンのテキスト色 */
+    border-color: #007bff; /* ボタンの境界線色 */
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #0056b3; /* ホバー時の背景色 */
+    border-color: #0056b3;
+}
